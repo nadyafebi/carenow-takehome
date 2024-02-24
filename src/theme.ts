@@ -10,6 +10,9 @@ const buttonStyle: ComponentStyleConfig = {
     solid: {
       background: "primary.200",
       color: "secondary.400",
+      _hover: {
+        background: "primary.300",
+      },
     },
   },
 };
@@ -21,6 +24,7 @@ const theme = extendTheme({
     },
     primary: {
       200: "#a6d9ff",
+      300: "#88cdff",
     },
     secondary: {
       400: "#2356b2",
