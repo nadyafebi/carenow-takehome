@@ -1,4 +1,3 @@
-import "./App.css";
 import Navbar from "./components/Navbar";
 import TreatmentForm from "./components/TreatmentForm";
 import { VStack, Center, Card, Heading, Box } from "@chakra-ui/react";
