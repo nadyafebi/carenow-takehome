@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "CareNow take home assignment.",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run build && npm run start:server",
+    "start:server": "npx ts-node server/index.ts",
+    "start:react": "react-scripts start",
     "build": "react-scripts build"
   },
   "repository": {
@@ -31,6 +33,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
     "react-scripts": "5.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
