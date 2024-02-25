@@ -7,5 +7,5 @@ export type TreatmentData = {
   treatmentCost: number;
 };
 
-export const treatmentOptions = ["Treatment 1", "Treatment 2"];
-export const medicationOptions = ["Medication 1", "Medication 2"];
+export const treatmentOptions = ["Dialysis", "Surgery", "Vaccination"];
+export const medicationOptions = ["Antibiotics", "Aspirin", "Insulin"];
