@@ -15,6 +15,9 @@ api.use(express.json());
 initializeApp({ credential: cert(serviceKey as ServiceAccount) });
 const db = getFirestore();
 
+/**
+ * POST route for saving treatment data.
+ */
 api.post("/treatmentEntry", async (req, res) => {
   try {
     const data: TreatmentData = req.body;
@@ -32,6 +35,11 @@ api.post("/treatmentEntry", async (req, res) => {
   }
 });
 
+/**
+ * Validate the treatment data fields.
+ * @param data Treatment data.
+ * @returns Error message or undefined.
+ */
 function validate(data: TreatmentData): string | undefined {
   if (!data.patientName) return "No patient name.";
   if (!data.patientId || typeof data.patientId != "string")

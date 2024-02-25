@@ -10,6 +10,9 @@ import {
 import InputField from "./InputField";
 import MultiSelectField from "./MultiSelectField";
 
+/**
+ * Component for displaying a submittable treatment entry form.
+ */
 export default function TreatmentForm() {
   const [isLoading, setLoading] = useState(false);
 

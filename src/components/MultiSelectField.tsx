@@ -18,6 +18,9 @@ interface MultiSelectFieldProps<
   error?: Merge<FieldError, (FieldError | undefined)[]>;
 }
 
+/**
+ * Component for displaying a multiselect field with Chakra UI form components and React Hook Form validation.
+ */
 export default function MultiSelectField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>

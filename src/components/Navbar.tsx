@@ -1,5 +1,8 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
 
+/**
+ * Component for displaying a navbar with the brand logo.
+ */
 export default function Navbar() {
   return (
     <>

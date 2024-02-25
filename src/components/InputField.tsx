@@ -21,6 +21,9 @@ interface InputFieldProps<
   error?: FieldError;
 }
 
+/**
+ * Component for displaying an input field with Chakra UI form components and React Hook Form validation.
+ */
 export default function InputField<
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
