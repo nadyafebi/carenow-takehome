@@ -1,29 +1,48 @@
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, VStack } from "@chakra-ui/react";
+import axios, { AxiosError } from "axios";
+import { Button, VStack, useToast } from "@chakra-ui/react";
+import {
+  TreatmentData,
+  treatmentOptions,
+  medicationOptions,
+} from "../treatment";
 import InputField from "./InputField";
 import MultiSelectField from "./MultiSelectField";
 
-type TreatmentData = {
-  patientName: string;
-  patientId: string;
-  treatmentDate: Date;
-  treatmentDescription: Array<string>;
-  medicationsPrescribed: Array<string>;
-  treatmentCost: number;
-};
-
-const treatmentOptions = ["Treatment 1", "Treatment 2"];
-const medicationOptions = ["Medication 1", "Medication 2"];
-
 export default function TreatmentForm() {
+  const [isLoading, setLoading] = useState(false);
+
+  const toast = useToast();
+
   const {
     control,
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TreatmentData>({ mode: "onBlur" });
 
-  const onSubmit: SubmitHandler<TreatmentData> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<TreatmentData> = async (data) => {
+    try {
+      setLoading(true);
+      await axios.post("/api/treatmentEntry", data);
+      reset();
+      toast({
+        title: "Success!",
+        description: "Treatment entry submitted.",
+        status: "success",
+      });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: `${axios.isAxiosError(err) ? err.response?.data : err}`,
+        status: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,7 +59,7 @@ export default function TreatmentForm() {
           register={register("patientId", {
             required: "Please enter patient ID.",
             pattern: {
-              value: /^[A-Z0-9]+$/,
+              value: /^[A-Za-z0-9]+$/,
               message: "Patient ID must be alphanumeric.",
             },
           })}
@@ -50,6 +69,7 @@ export default function TreatmentForm() {
           label="Date of Treatment"
           type="date"
           register={register("treatmentDate", {
+            valueAsDate: true,
             required: "Please enter the date of the treatment.",
           })}
           error={errors.treatmentDate}
@@ -77,7 +97,9 @@ export default function TreatmentForm() {
         <InputField
           label="Cost of Treatment"
           type="number"
+          step=".01"
           register={register("treatmentCost", {
+            valueAsNumber: true,
             required: "Please enter the cost of the treatment.",
             min: {
               value: 0,
@@ -87,7 +109,7 @@ export default function TreatmentForm() {
           error={errors.treatmentCost}
         />
       </VStack>
-      <Button marginTop={3} type="submit" width="100%">
+      <Button isLoading={isLoading} marginTop={3} type="submit" width="100%">
         Submit
       </Button>
     </form>
