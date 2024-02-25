@@ -1,7 +1,7 @@
 import express from "express";
 import { ServiceAccount } from "firebase-admin";
 import { initializeApp, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import {
   TreatmentData,
   treatmentOptions,
@@ -27,10 +27,14 @@ api.post("/treatmentEntry", async (req, res) => {
       throw new Error(validationError);
     }
 
-    await db.collection("treatmentEntry").add(data);
+    await db.collection("treatmentEntry").add({
+      ...data,
+      treatmentDate: Timestamp.fromDate(new Date(data.treatmentDate)), // Convert date to Firestore timestamp.
+    });
 
     return res.sendStatus(200);
   } catch (err) {
+    console.log(err);
     return res.status(400).send(err);
   }
 });
