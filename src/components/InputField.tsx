@@ -3,6 +3,7 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
+  InputProps,
 } from "@chakra-ui/react";
 import {
   FieldError,
@@ -14,9 +15,8 @@ import {
 interface InputFieldProps<
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
-> {
+> extends InputProps {
   label: string;
-  type?: React.HTMLInputTypeAttribute;
   register: UseFormRegisterReturn<TFieldName>;
   error?: FieldError;
 }
@@ -24,11 +24,16 @@ interface InputFieldProps<
 export default function InputField<
   TFieldValues extends FieldValues = FieldValues,
   TFieldName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->({ label, type, register, error }: InputFieldProps<TFieldValues, TFieldName>) {
+>({
+  label,
+  register,
+  error,
+  ...inputProps
+}: InputFieldProps<TFieldValues, TFieldName>) {
   return (
     <FormControl isInvalid={Boolean(error)}>
       <FormLabel>{label}</FormLabel>
-      <Input {...register} type={type} />
+      <Input {...register} {...inputProps} />
       <FormErrorMessage>{error && error.message?.toString()}</FormErrorMessage>
     </FormControl>
   );
