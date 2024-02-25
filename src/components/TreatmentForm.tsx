@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Button, VStack, useToast } from "@chakra-ui/react";
 import {
   TreatmentData,
@@ -28,8 +28,11 @@ export default function TreatmentForm() {
 
   const onSubmit: SubmitHandler<TreatmentData> = async (data) => {
     try {
+      // Send POST request.
       setLoading(true);
       await axios.post("/api/treatmentEntry", data);
+
+      // Set success state.
       reset();
       toast({
         title: "Success!",
@@ -37,12 +40,14 @@ export default function TreatmentForm() {
         status: "success",
       });
     } catch (err) {
+      // Set error state.
       toast({
         title: "Error",
         description: `${axios.isAxiosError(err) ? err.response?.data : err}`,
         status: "error",
       });
     } finally {
+      // Set final state.
       setLoading(false);
     }
   };
