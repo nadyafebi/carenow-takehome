@@ -2,6 +2,8 @@
 
 **By: Nadya Djojosantoso**
 
+https://github.com/nadyafebi/carenow-takehome/assets/19828938/2a18b378-4d19-45a4-82ef-c8d733286649
+
 ## Project Overview
 
 Create a basic web application that includes a front-end form using React.js (any UI framework such as ChakraUI, Antd, etc.) and a back-end API. The application's purpose is for medical providers to input details of treatments and medications for patients.
