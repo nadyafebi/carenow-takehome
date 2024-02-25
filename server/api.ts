@@ -1,22 +1,35 @@
 import express from "express";
+import { ServiceAccount } from "firebase-admin";
+import { initializeApp, cert } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 import {
   TreatmentData,
   treatmentOptions,
   medicationOptions,
 } from "../src/treatment";
+import serviceKey from "../servicekey.json";
 
 const api = express.Router();
 api.use(express.json());
 
-api.post("/treatmentEntry", (req, res) => {
-  const data: TreatmentData = req.body;
+initializeApp({ credential: cert(serviceKey as ServiceAccount) });
+const db = getFirestore();
 
-  const validationError = validate(data);
-  if (validationError) {
-    return res.status(400).send(validationError);
+api.post("/treatmentEntry", async (req, res) => {
+  try {
+    const data: TreatmentData = req.body;
+
+    const validationError = validate(data);
+    if (validationError) {
+      throw new Error(validationError);
+    }
+
+    await db.collection("treatmentEntry").add(data);
+
+    return res.sendStatus(200);
+  } catch (err) {
+    return res.status(400).send(err);
   }
-
-  return res.sendStatus(200);
 });
 
 function validate(data: TreatmentData): string | undefined {
